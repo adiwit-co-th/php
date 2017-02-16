@@ -4,7 +4,7 @@
 #####################################################
 
 # Set the base image
-FROM        adiwitcoth/php:7.1-fpm-alpine
+FROM        adiwitcoth/php:7-fpm-alpine
 
 # File Author / Maintainer
 MAINTAINER  Adiwit Co., Ltd. <info@adiwit.co.th>
