@@ -27,8 +27,8 @@ RUN         apk add cyrus-sasl-dev \
             && docker-php-source extract \
             && git clone https://github.com/php-memcached-dev/php-memcached /usr/src/php/ext/memcached/ \
             && docker-php-ext-install memcached \
-            && docker-php-source delete \
-    
+            && docker-php-source delete
+
 # Composers
 RUN         apk add openssl \
                 curl \
