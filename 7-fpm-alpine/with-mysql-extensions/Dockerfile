@@ -9,10 +9,6 @@ FROM        adiwitcoth/php:7.1-fpm-alpine
 # File Author / Maintainer
 MAINTAINER  Adiwit Co., Ltd. <info@adiwit.co.th>
 
-# Change System TimeZone to Asia/Bangkok
-RUN         apk add -U tzdata
-RUN         cp /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
-
 # Update Repositories
 RUN         apk add -U git \
                 autoconf \
