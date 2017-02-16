@@ -46,17 +46,7 @@ RUN         apk add -U autoconf \
             && docker-php-ext-enable redis
 
 # CleanUps
-RUN         apk del autoconf \
-                curl \
-                cyrus-sasl-dev \
-                gcc \
-                git \
-                g++ \
-                libmemcached-dev \
-                make \
-                openssl \
-                zlib-dev \
-            && rm -rf /tmp/* /var/cache/apk/*
+RUN         rm -rf /tmp/* /var/cache/apk/*
 
 # Set working directory for BASH
 WORKDIR /usr/local/etc/php/
