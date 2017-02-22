@@ -50,6 +50,10 @@ COPY php.ini /usr/local/etc/php/php.ini
 RUN pecl install redis \
     && docker-php-ext-enable redis
 
+# xDebug
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
+
 # CleanUps
 RUN apt-get autoremove -fy \
     && apt-get autoclean -y

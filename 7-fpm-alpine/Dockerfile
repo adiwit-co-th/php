@@ -40,12 +40,12 @@ RUN         apk add openssl \
 COPY        php.ini /usr/local/etc/php/php.ini
 
 # Redis
-RUN         apk add -U autoconf \
-                gcc \
-                g++ \
-                make \
-            && pecl install redis \
-            && docker-php-ext-enable redis
+RUN         pecl install redis \
+                && docker-php-ext-enable redis
+
+# xDebug
+RUN         pecl install xdebug \
+                && docker-php-ext-enable xdebug
 
 # CleanUps
 RUN         rm -rf /tmp/* /var/cache/apk/*
