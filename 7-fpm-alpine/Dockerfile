@@ -14,11 +14,13 @@ RUN         apk add -U tzdata
 RUN         cp /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
 
 # Update Repositories
-RUN         apk add -U git \
+RUN         apk add -U \
+                git \
                 autoconf \
                 gcc \
                 g++ \
-                make
+                make \
+                wget
 
 # Memcached
 RUN         apk add cyrus-sasl-dev \
