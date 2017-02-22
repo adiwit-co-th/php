@@ -60,45 +60,4 @@ RUN         apt-get install -fy locales \
             && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
             && locale-gen
 
-# (1) Install PDO driver from pecl
-# RUN         apt-get install -y unixodbc-dev php7.0-dev php-pear
-# RUN         pecl channel-update pecl.php.net
-# RUN         pecl install pdo_sqlsrv
-#            && printf "; priority=20\nextension=pdo_sqlsrv.so" \
-#            | tee /etc/php/7.0/mods-available/pdo_sqlsrv.ini \
-#            && phpenmod pdo_sqlsrv \
-#            && php --rextinfo pdo_sqlsrv \
-#            && phpdismod pdo_sqlsrv \
-#            && pecl uninstall pdo_sqlsrv
-
-# (2) Or Build PDO driver with phpize
-# RUN         apt-get install -y unixodbc-dev php7.1-dev \
-#             && wget -nv "https://github.com/Microsoft/msphpsql/archive/PHP-7.1-Linux.tar.gz" \
-#             && tar -xf PHP-7.0-Linux.tar.gz \
-#             && cd msphpsql-PHP-7.0-Linux/source/ \
-#             && cp -r shared/ pdo_sqlsrv/ \
-#             && cd pdo_sqlsrv/ \
-#             && phpize \
-#             && ./configure CXXFLAGS=-std=c++11 \
-#             && make \
-#             && make "INSTALL=$(pwd)/build/shtool install -c --mode=0644" install \
-#             && printf "; priority=20\nextension=pdo_sqlsrv.so" \
-#                 | tee /etc/php/7.0/mods-available/pdo_sqlsrv.ini \
-#             && phpenmod pdo_sqlsrv \
-#             && php --rextinfo pdo_sqlsrv \
-#             && phpdismod pdo_sqlsrv \
-#             && rm -f /usr/lib/php/20151012/pdo_sqlsrv.so
-# 
-# (3) Or Download precompiled pdo_sqlsrv extension binaries
-# RUN         apt-get install -y php7.0-cli \
-#             && wget -nv "https://github.com/Microsoft/msphpsql/releases/download/4.0.8-Linux/Ubuntu15.tar" \
-#             && tar -xf Ubuntu15.tar \
-#             && cp -v ./Ubuntu15/php_pdo_sqlsrv_7_nts.so /usr/lib/php/20151012/pdo_sqlsrv.so \
-#             && printf "; priority=20\nextension=pdo_sqlsrv.so" \
-#                 | tee /etc/php/7.0/mods-available/pdo_sqlsrv.ini \
-#             && phpenmod pdo_sqlsrv \
-#             && php --rextinfo pdo_sqlsrv \
-#             && phpdismod pdo_sqlsrv \
-#             && rm -f /usr/lib/php/20151012/pdo_sqlsrv.so
-
 CMD         ["start.sh"]
