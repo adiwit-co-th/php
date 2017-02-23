@@ -14,13 +14,9 @@ MAINTAINER  Adiwit Co., Ltd. <info@adiwit.co.th>
 VOLUME      ["/opt/results"]
 ARG         DEBIAN_FRONTEND=noninteractive
 
-# Add PHP 7 repository
-# for Debian jessie
-# And System upgrade
-RUN         apt-get update \
-            && apt-get install -fy \
-                wget
-RUN         echo "deb http://packages.dotdeb.org jessie all" \
+# Add PHP 7 repository for Debian jessie and System upgrade
+RUN         echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
+            && echo "deb http://packages.dotdeb.org jessie all" \
                 | tee /etc/apt/sources.list.d/dotdeb.list \
             && wget -qO- https://www.dotdeb.org/dotdeb.gpg \
                 | apt-key add - \
@@ -51,13 +47,13 @@ RUN         wget -nv -O msodbcsql-13.0.0.0.tar.gz \
             && ls -l /opt/microsoft/msodbcsql/ \
             && odbcinst -q -d -n "ODBC Driver 13 for SQL Server"
 
-RUN         apt-get install -y unixodbc-dev
-RUN         pecl install sqlsrv-4.1.6.1 pdo_sqlsrv-4.1.6.1
-RUN         docker-php-ext-enable sqlsrv \
-            pdo_sqlsrv
-
-RUN         apt-get install -fy locales \
-            && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
-            && locale-gen
+RUN         apt-get install -y \
+                unixodbc-dev \
+                locales \
+            && locale-gen \
+            && pecl install sqlsrv-4.1.6.1 pdo_sqlsrv-4.1.6.1 \
+            && docker-php-ext-enable sqlsrv \
+                pdo_sqlsrv \
+            && apt-get install -fy
 
 CMD         ["start.sh"]

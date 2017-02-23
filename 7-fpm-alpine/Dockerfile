@@ -22,6 +22,15 @@ RUN         apk add -U \
                 make \
                 wget
 
+# xDebug
+RUN         pecl install xdebug \
+                && docker-php-ext-enable xdebug
+
+# Composers
+RUN         apk add openssl \
+                curl \
+            && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
+
 # Memcached
 RUN         apk add cyrus-sasl-dev \
                 libmemcached-dev \
@@ -31,27 +40,18 @@ RUN         apk add cyrus-sasl-dev \
             && docker-php-ext-install memcached \
             && docker-php-source delete
 
-# Composers
-RUN         apk add openssl \
-                curl \
-            && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
-
-# Configurations
-COPY        php.ini /usr/local/etc/php/php.ini
-
 # Redis
 RUN         pecl install redis \
                 && docker-php-ext-enable redis
 
-# xDebug
-RUN         pecl install xdebug \
-                && docker-php-ext-enable xdebug
+# Configurations
+COPY        php.ini /usr/local/etc/php/php.ini
 
 # CleanUps
 RUN         rm -rf /tmp/* /var/cache/apk/*
 
 # Set working directory for BASH
-WORKDIR /usr/local/etc/php/
+WORKDIR     /usr/local/etc/php/
 
 # Dynamic Redis Environments
 ADD         start.sh /usr/bin/start.sh
