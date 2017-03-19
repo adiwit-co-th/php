@@ -24,10 +24,6 @@ RUN         apk add bzip2-dev \
 RUN         apk add gettext-dev \
             && docker-php-ext-install gettext
 
-# MCrypt
-RUN         apk add libmcrypt-dev \
-            && docker-php-ext-install mcrypt
-
 # MySQL
 RUN         docker-php-ext-install mysqli \
                 pdo_mysql
