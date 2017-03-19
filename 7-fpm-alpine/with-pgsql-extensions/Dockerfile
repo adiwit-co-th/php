@@ -11,6 +11,7 @@ MAINTAINER 	Adiwit Co., Ltd. <info@adiwit.co.th>
 
 # PostgreSQL
 RUN 		apk add -U postgresql-dev \
-    		&& docker-php-ext-install pdo_pgsql
+    		&& docker-php-ext-install pdo_pgsql \
+        && docker-php-source delete
 
 CMD         ["start.sh"]

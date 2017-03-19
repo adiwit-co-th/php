@@ -10,7 +10,7 @@ FROM        adiwitcoth/php:7-fpm-alpine
 MAINTAINER  Adiwit Co., Ltd. <info@adiwit.co.th>
 
 # Update Repositories
-RUN         apk add -U git \
+RUN         apk add -U \
                 autoconf \
                 gcc \
                 g++ \
@@ -18,17 +18,18 @@ RUN         apk add -U git \
 
 # BZ2
 RUN         apk add bzip2-dev \
-            && docker-php-ext-install bz2
+&& docker-php-ext-install bz2
 
 # GetText
 RUN         apk add gettext-dev \
-            && docker-php-ext-install gettext
-
-# MySQL
-RUN         docker-php-ext-install mysqli \
-                pdo_mysql
+&& docker-php-ext-install gettext
 
 # Zip
 RUN         docker-php-ext-install zip
+
+# MySQL
+RUN         docker-php-ext-install mysqli \
+pdo_mysql \
+&& docker-php-source delete
 
 CMD         ["start.sh"]

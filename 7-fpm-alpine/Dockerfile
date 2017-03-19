@@ -46,20 +46,17 @@ RUN         pecl install redis \
 
 # GD
 RUN         apk add freetype-dev \
-                libjpeg-turbo-dev \
-                libpng-dev \
-            && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-            && docker-php-ext-install gd
-
-# MCrypt
-RUN         apk add libmcrypt-dev \
-            && docker-php-ext-install mcrypt
+libjpeg-turbo-dev \
+libpng-dev \
+&& docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+&& docker-php-ext-install gd
 
 # Configurations
 COPY        php.ini /usr/local/etc/php/php.ini
 
 # CleanUps
-RUN         rm -rf /tmp/* /var/cache/apk/*
+RUN         rm -rf /tmp/* /var/cache/apk/* \
+            && docker-php-source delete
 
 # Set working directory for BASH
 WORKDIR     /usr/local/etc/php/
