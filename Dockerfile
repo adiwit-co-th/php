@@ -26,38 +26,33 @@ RUN         apt-get update \
                 apt-transport-https \
                 git \
                 nano \
-                wget
-
-# Composers
-RUN         curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
+                wget \
 
 # BZ2
-RUN         apt-get update \
             && apt-get install -fy \
                 bzip2 \
                 bzip2-doc \
                 libbz2-dev \
-            && docker-php-ext-install bz2
+            && docker-php-ext-install bz2 \
 
 # GD
-RUN         apt-get install -fy \
+            && apt-get install -fy \
                 libfreetype6-dev \
                 libjpeg62-turbo-dev \
                 libpng12-dev \
             && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-            && docker-php-ext-install gd
+            && docker-php-ext-install gd \
 
 # GetText
-RUN         docker-php-ext-install gettext
+            && docker-php-ext-install gettext \
 
 
 # MCrypt
-RUN         apt-get install -fy \
+            && apt-get install -fy \
                 libmcrypt-dev \
-            && docker-php-ext-install mcrypt
+            && docker-php-ext-install mcrypt \
 
 # Memcached
-RUN         apt-get update \
             && apt-get install -fy \
                 libmemcached-dev \
                 zlib1g-dev \
@@ -70,20 +65,19 @@ RUN         apt-get update \
             && git clone https://github.com/php-memcached-dev/php-memcached /usr/src/php/ext/memcached/ \
             && docker-php-ext-install memcached \
             && apt-mark manual $doNotUninstall \
-            && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $buildDeps
+            && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $buildDeps \
 
 # MySQL
-RUN         docker-php-ext-install mysqli \
-                pdo_mysql
+            && docker-php-ext-install mysqli \
+                pdo_mysql \
 
 # PostgreSQL
-RUN 		    apt-get update \
             && apt-get install -fy \
                 libpq-dev \
-            && docker-php-ext-install pdo_pgsql
+            && docker-php-ext-install pdo_pgsql \
 
 # Redis
-RUN         pecl channel-update pecl.php.net \
+            && pecl channel-update pecl.php.net \
             && pecl install redis \
             && docker-php-ext-enable redis
 
