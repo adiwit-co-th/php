@@ -72,14 +72,23 @@ RUN         apt-get update \
                 pdo_mysql \
 
 # PostgreSQL
+            && apt-get remove -fy \
+                libpq5 \
             && apt-get install -fy \
-                libpq-dev \
+                libpq \
             && docker-php-ext-install pdo_pgsql \
 
 # Redis
             && pecl channel-update pecl.php.net \
             && pecl install redis \
             && docker-php-ext-enable redis
+            
+# CleanUps
+            && apt-get autoremove -fy \
+            && apt-get clean \
+            && apt-get autoclean -y \
+            && docker-php-source delete \
+            && rm -rf /var/lib/apt/lists/*
 
 # SQL Server
 ENV         ACCEPT_EULA=Y
@@ -105,22 +114,22 @@ RUN         sed -i "s/jessie/stretch/g" /etc/apt/sources.list \
             && apt-get update \
             && echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile \
             && echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+            && apt-get autoremove -fy \
+            && apt-get clean \
+            && apt-get autoclean -y \
+            && docker-php-source delete \
+            && rm -rf /var/lib/apt/lists/*
 
 # Zip
 RUN         docker-php-ext-install zip
+            && docker-php-source delete \
+            && rm -rf /var/lib/apt/lists/*
 
 # PDF
 RUN         apt-get install -fy \
                 libthai0 \
                 xfonts-thai \
                 pdftk
-
-# CleanUps
-RUN         apt-get autoremove -fy \
-            && apt-get clean \
-            && apt-get autoclean -y \
-            && docker-php-source delete \
-            && rm -rf /var/lib/apt/lists/*
 
 # Configurations
 COPY        php.ini /usr/local/etc/php/php.ini
