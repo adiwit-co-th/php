@@ -81,7 +81,7 @@ RUN         apt-get update \
 # Redis
             && pecl channel-update pecl.php.net \
             && pecl install redis \
-            && docker-php-ext-enable redis
+            && docker-php-ext-enable redis \
             
 # CleanUps
             && apt-get autoremove -fy \
