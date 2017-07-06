@@ -82,6 +82,17 @@ RUN         apt-get update \
             && pecl channel-update pecl.php.net \
             && pecl install redis \
             && docker-php-ext-enable redis \
+            && git clone https://github.com/nrk/phpiredis.git \
+            && ( \
+                cd phpiredis \
+                && git checkout v1.0.0 \
+                && phpize \
+                && ./configure --enable-phpiredis \
+                && make \
+                && make install \
+            ) \
+            && rm -r phpiredis \
+            && docker-php-ext-enable phpiredis \
             
 # CleanUps
             && apt-get autoremove -fy \
