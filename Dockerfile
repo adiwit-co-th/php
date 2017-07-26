@@ -124,7 +124,7 @@ RUN         sed -i "s/jessie/stretch/g" /etc/apt/sources.list \
             && sed -i "s/stretch/jessie/g" /etc/apt/sources.list \
             && apt-get update \
             && echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile \
-            && echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+            && echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc \
             && apt-get autoremove -fy \
             && apt-get clean \
             && apt-get autoclean -y \
@@ -132,7 +132,7 @@ RUN         sed -i "s/jessie/stretch/g" /etc/apt/sources.list \
             && rm -rf /var/lib/apt/lists/*
 
 # Zip
-RUN         docker-php-ext-install zip
+RUN         docker-php-ext-install zip \
             && docker-php-source delete \
             && rm -rf /var/lib/apt/lists/*
 
