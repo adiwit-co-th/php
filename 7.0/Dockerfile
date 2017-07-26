@@ -116,7 +116,10 @@ RUN         docker-php-ext-install zip
 RUN         apt-get install -fy \
                 libthai0 \
                 xfonts-thai \
-                pdftk
+                pdftk \
+                libxrender1 \
+                libfontconfig1 \
+                libxtst6
 
 # CleanUps
 RUN         apt-get autoremove -fy \
