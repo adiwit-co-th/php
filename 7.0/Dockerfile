@@ -1,6 +1,6 @@
 #####################################################
 # Dockerfile to customeize PHP for Laravel project
-# Based on the official PHP-FPM 7.0
+# Based on the official PHP-FPM 7.1
 #####################################################
 
 # Set the base image
@@ -26,7 +26,12 @@ RUN         apt-get update \
                 apt-transport-https \
                 git \
                 nano \
-                wget
+                wget \
+            && apt-get autoremove -fy \
+            && apt-get clean \
+            && apt-get autoclean -y \
+            && docker-php-source delete \
+            && rm -rf /var/lib/apt/lists/*
 
 # BZ2
 RUN         apt-get update \
@@ -34,25 +39,42 @@ RUN         apt-get update \
                 bzip2 \
                 bzip2-doc \
                 libbz2-dev \
-            && docker-php-ext-install bz2
-
+            && docker-php-ext-install bz2 \
+            && apt-get autoremove -fy \
+            && apt-get clean \
+            && apt-get autoclean -y \
+            && docker-php-source delete \
+            && rm -rf /var/lib/apt/lists/*
 # GD
-RUN         apt-get install -fy \
+RUN         apt-get update \
+            && apt-get install -fy \
                 libfreetype6-dev \
                 libjpeg62-turbo-dev \
                 libpng12-dev \
             && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-            && docker-php-ext-install gd
+            && docker-php-ext-install gd \
+            && apt-get autoremove -fy \
+            && apt-get clean \
+            && apt-get autoclean -y \
+            && docker-php-source delete \
+            && rm -rf /var/lib/apt/lists/*
 
 # GetText
-RUN         docker-php-ext-install gettext
-
+RUN         docker-php-ext-install gettext \
+            && docker-php-source delete \
+            && rm -rf /var/lib/apt/lists/*
 
 # MCrypt
-RUN         apt-get install -fy \
+RUN         apt-get update \
+            && apt-get install -fy \
                 libmcrypt-dev \
-            && docker-php-ext-install mcrypt
-
+            && docker-php-ext-install mcrypt \
+            && apt-get autoremove -fy \
+            && apt-get clean \
+            && apt-get autoclean -y \
+            && docker-php-source delete \
+            && rm -rf /var/lib/apt/lists/*
+            
 # Memcached
 RUN         apt-get update \
             && apt-get install -fy \
@@ -67,22 +89,52 @@ RUN         apt-get update \
             && git clone https://github.com/php-memcached-dev/php-memcached /usr/src/php/ext/memcached/ \
             && docker-php-ext-install memcached \
             && apt-mark manual $doNotUninstall \
-            && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $buildDeps
+            && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $buildDeps \
+            && apt-get autoremove -fy \
+            && apt-get clean \
+            && apt-get autoclean -y \
+            && docker-php-source delete \
+            && rm -rf /var/lib/apt/lists/*
 
 # MySQL
 RUN         docker-php-ext-install mysqli \
-                pdo_mysql
+                pdo pdo_mysql \
+            && docker-php-source delete \
+            && rm -rf /var/lib/apt/lists/*
 
 # PostgreSQL
-RUN 		    apt-get update \
-            && apt-get install -fy \
-                libpq-dev \
-            && docker-php-ext-install pdo_pgsql
+RUN         apt-get update \
+            && apt-get install -y libpq-dev \
+            && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+            && docker-php-ext-install pdo pdo_pgsql pgsql \
+            && apt-get autoremove -fy \
+            && apt-get clean \
+            && apt-get autoclean -y \
+            && docker-php-source delete \
+            && rm -rf /var/lib/apt/lists/*
 
 # Redis
-RUN         pecl channel-update pecl.php.net \
+RUN         apt-get update \
+            && apt-get install -y libhiredis-dev \
+            && pecl channel-update pecl.php.net \
             && pecl install redis \
-            && docker-php-ext-enable redis
+            && docker-php-ext-enable redis \
+            && git clone https://github.com/nrk/phpiredis.git \
+            && ( \
+                cd phpiredis \
+                && git checkout v1.0.0 \
+                && phpize \
+                && ./configure --enable-phpiredis \
+                && make \
+                && make install \
+            ) \
+            && rm -r phpiredis \
+            && apt-get autoremove -fy \
+            && apt-get clean \
+            && apt-get autoclean -y \
+            && docker-php-ext-enable phpiredis \
+            && docker-php-source delete \
+            && rm -rf /var/lib/apt/lists/*
 
 # SQL Server
 ENV         ACCEPT_EULA=Y
@@ -107,29 +159,37 @@ RUN         sed -i "s/jessie/stretch/g" /etc/apt/sources.list \
             && sed -i "s/stretch/jessie/g" /etc/apt/sources.list \
             && apt-get update \
             && echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile \
-            && echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
-
-# Zip
-RUN         docker-php-ext-install zip
-
-# PDF
-RUN         apt-get install -fy \
-                libthai0 \
-                xfonts-thai \
-                pdftk \
-                libxrender1 \
-                libfontconfig1 \
-                libxtst6
-
-# CleanUps
-RUN         apt-get autoremove -fy \
+            && echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc \
+            && apt-get autoremove -fy \
             && apt-get clean \
             && apt-get autoclean -y \
             && docker-php-source delete \
             && rm -rf /var/lib/apt/lists/*
 
+# Zip
+RUN         docker-php-ext-install zip \
+            && docker-php-source delete \
+            && rm -rf /var/lib/apt/lists/*
+
+# PDF
+RUN         apt-get update \
+            && apt-get install -fy \
+                libthai0 \
+                xfonts-thai \
+                pdftk \
+                libxrender1 \
+                libfontconfig1 \
+                libxtst6 \
+                libx11-dev \
+                libjpeg62 \
+            && wget https://github.com/h4cc/wkhtmltopdf-amd64/blob/master/bin/wkhtmltopdf-amd64?raw=true -O /usr/local/bin/wkhtmltopdf \
+            && chmod +x /usr/local/bin/wkhtmltopdf \
+            && apt-get autoremove -fy \
+            && apt-get clean \
+            && apt-get autoclean -y
+
 # Configurations
-COPY        php.ini /usr/local/etc/php/php.ini
+COPY        ../php.ini /usr/local/etc/php/php.ini
 
 # Set working directory for BASH
 WORKDIR     /var/www
