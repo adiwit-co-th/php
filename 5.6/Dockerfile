@@ -74,27 +74,6 @@ RUN         apt-get update \
             && apt-get autoclean -y \
             && docker-php-source delete \
             && rm -rf /var/lib/apt/lists/*
-            
-# Memcached
-RUN         apt-get update \
-            && apt-get install -fy \
-                libmemcached-dev \
-                zlib1g-dev \
-            && doNotUninstall=" \
-                libmemcached11 \
-                libmemcachedutil2 \
-            " \
-            && rm -r /var/lib/apt/lists/* \
-            && docker-php-source extract \
-            && git clone https://github.com/php-memcached-dev/php-memcached /usr/src/php/ext/memcached/ \
-            && docker-php-ext-install memcached \
-            && apt-mark manual $doNotUninstall \
-            && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $buildDeps \
-            && apt-get autoremove -fy \
-            && apt-get clean \
-            && apt-get autoclean -y \
-            && docker-php-source delete \
-            && rm -rf /var/lib/apt/lists/*
 
 # MySQL
 RUN         docker-php-ext-install mysqli \
