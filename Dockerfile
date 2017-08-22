@@ -172,6 +172,9 @@ RUN         apt-get update \
                 zip \
                 unzip \
             && docker-php-ext-install zip \
+            && apt-get autoremove -fy \
+            && apt-get clean \
+            && apt-get autoclean -y \
             && docker-php-source delete \
             && rm -rf /var/lib/apt/lists/*
 
