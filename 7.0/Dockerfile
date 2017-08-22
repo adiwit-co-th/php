@@ -167,7 +167,14 @@ RUN         sed -i "s/jessie/stretch/g" /etc/apt/sources.list \
             && rm -rf /var/lib/apt/lists/*
 
 # Zip
-RUN         docker-php-ext-install zip unzip \
+RUN         apt-get update \
+            && apt-get install -fy \
+                zip \
+                unzip \
+            && docker-php-ext-install zip \
+            && apt-get autoremove -fy \
+            && apt-get clean \
+            && apt-get autoclean -y \
             && docker-php-source delete \
             && rm -rf /var/lib/apt/lists/*
 
