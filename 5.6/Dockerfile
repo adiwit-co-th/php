@@ -116,7 +116,7 @@ RUN         apt-get update \
             && rm -rf /var/lib/apt/lists/*
 
 # Zip
-RUN         docker-php-ext-install zip \
+RUN         docker-php-ext-install zip unzip \
             && docker-php-source delete \
             && rm -rf /var/lib/apt/lists/*
 
