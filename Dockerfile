@@ -200,3 +200,7 @@ COPY        php.ini /usr/local/etc/php/php.ini
 
 # Set working directory for BASH
 WORKDIR     /var/www
+
+# Startup Commands
+ENTRYPOINT ["php"]
+CMD ["-v"]

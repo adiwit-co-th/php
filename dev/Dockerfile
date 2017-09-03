@@ -4,7 +4,7 @@
 #####################################################
 
 # Set the base image
-FROM        php:7.0-fpm
+FROM        php:7.1-cli
 
 # File Author / Maintainer
 MAINTAINER  Adiwit Co., Ltd. <info@adiwit.co.th>
@@ -19,7 +19,7 @@ RUN         ln -sf /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
 RUN         apt-get update \
             && apt-get upgrade -fy \
             && apt-get dist-upgrade -fy \
-            && apt-get install -fy \
+            && apt-get install --no-install-recommends -fy \
                 autoconf \
                 pkg-config \
                 apt-utils \
@@ -35,7 +35,7 @@ RUN         apt-get update \
 
 # BZ2
 RUN         apt-get update \
-            && apt-get install -fy \
+            && apt-get install --no-install-recommends -fy \
                 bzip2 \
                 bzip2-doc \
                 libbz2-dev \
@@ -47,7 +47,7 @@ RUN         apt-get update \
             && rm -rf /var/lib/apt/lists/*
 # GD
 RUN         apt-get update \
-            && apt-get install -fy \
+            && apt-get install --no-install-recommends -fy \
                 libfreetype6-dev \
                 libjpeg62-turbo-dev \
                 libpng12-dev \
@@ -66,7 +66,7 @@ RUN         docker-php-ext-install gettext \
 
 # MCrypt
 RUN         apt-get update \
-            && apt-get install -fy \
+            && apt-get install --no-install-recommends -fy \
                 libmcrypt-dev \
             && docker-php-ext-install mcrypt \
             && apt-get autoremove -fy \
@@ -77,7 +77,7 @@ RUN         apt-get update \
             
 # Memcached
 RUN         apt-get update \
-            && apt-get install -fy \
+            && apt-get install --no-install-recommends -fy \
                 libmemcached-dev \
                 zlib1g-dev \
             && doNotUninstall=" \
@@ -142,7 +142,7 @@ RUN         sed -i "s/jessie/stretch/g" /etc/apt/sources.list \
             && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
             && curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql.list \
             && apt-get update \
-            && apt-get install --no-install-recommends -y \
+            && apt-get install --no-install-recommends -fy \
                 unixodbc \
                 odbcinst1debian2 \
                 unixodbc-dev \
@@ -168,7 +168,7 @@ RUN         sed -i "s/jessie/stretch/g" /etc/apt/sources.list \
 
 # Zip
 RUN         apt-get update \
-            && apt-get install -fy \
+            && apt-get install --no-install-recommends -fy \
                 zip \
                 unzip \
             && docker-php-ext-install zip \
@@ -180,7 +180,7 @@ RUN         apt-get update \
 
 # PDF
 RUN         apt-get update \
-            && apt-get install -fy \
+            && apt-get install --no-install-recommends -fy \
                 libthai0 \
                 xfonts-thai \
                 pdftk \
@@ -195,6 +195,9 @@ RUN         apt-get update \
             && apt-get clean \
             && apt-get autoclean -y
 
+# Composers
+RUN         curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
 # Configurations
 COPY        php.ini /usr/local/etc/php/php.ini
 
@@ -202,5 +205,5 @@ COPY        php.ini /usr/local/etc/php/php.ini
 WORKDIR     /var/www
 
 # Startup Commands
-ENTRYPOINT ["php"]
-CMD ["-v"]
+ENTRYPOINT ["php", "artisan"]
+CMD ["serve"]
