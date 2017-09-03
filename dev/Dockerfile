@@ -194,7 +194,7 @@ RUN         apt-get update \
             && apt-get autoremove -fy \
             && apt-get clean \
             && apt-get autoclean -y
-
+            
 # Composers
 RUN         curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -205,5 +205,5 @@ COPY        php.ini /usr/local/etc/php/php.ini
 WORKDIR     /var/www
 
 # Startup Commands
-ENTRYPOINT ["php", "artisan"]
-CMD ["serve"]
+CMD         bash -c "composer install && php artisan migrate && php artisan serve --host 0.0.0.0 --port 8000"
+EXPOSE      8000
