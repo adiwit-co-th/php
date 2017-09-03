@@ -1,10 +1,10 @@
 #####################################################
 # Dockerfile to customeize PHP for Laravel project
-# Based on the official PHP-FPM 7.1
+# Based on the official PHP-CLI
 #####################################################
 
 # Set the base image
-FROM        php:7.1-cli
+FROM        php:cli
 
 # File Author / Maintainer
 MAINTAINER  Adiwit Co., Ltd. <info@adiwit.co.th>
@@ -205,5 +205,5 @@ COPY        php.ini /usr/local/etc/php/php.ini
 WORKDIR     /var/www
 
 # Startup Commands
-CMD         bash -c "composer install && php artisan migrate && php artisan serve --host 0.0.0.0 --port 8000"
-EXPOSE      8000
+CMD         bash -c "composer install && php artisan migrate && php artisan serve --host 0.0.0.0 --port 80"
+EXPOSE      80
