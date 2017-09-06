@@ -25,7 +25,6 @@ RUN         apt-get update \
                 apt-utils \
                 apt-transport-https \
                 git \
-                nano \
                 wget \
             && apt-get autoremove -fy \
             && apt-get clean \
