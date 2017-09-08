@@ -26,6 +26,7 @@ RUN         apt-get update \
                 apt-transport-https \
                 git \
                 wget \
+                openssh-client \
             && apt-get autoremove -fy \
             && apt-get clean \
             && apt-get autoclean -y \
