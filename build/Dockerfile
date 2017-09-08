@@ -36,6 +36,7 @@ RUN         apt-get update \
 # Zip
 RUN         apt-get update \
             && apt-get install --no-install-recommends -fy \
+                zlib1g-dev \
                 zip \
                 unzip \
             && docker-php-ext-install zip \
