@@ -32,6 +32,18 @@ RUN         apt-get update \
             && docker-php-source delete \
             && rm -rf /var/lib/apt/lists/*
 
+# Zip
+RUN         apt-get update \
+            && apt-get install --no-install-recommends -fy \
+                zip \
+                unzip \
+            && docker-php-ext-install zip \
+            && apt-get autoremove -fy \
+            && apt-get clean \
+            && apt-get autoclean -y \
+            && docker-php-source delete \
+            && rm -rf /var/lib/apt/lists/*
+
 # Composers
 RUN         curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -51,3 +63,6 @@ RUN         curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
             && apt-get clean \
             && apt-get autoclean -y \
             && rm -rf /var/lib/apt/lists/*
+
+# Configurations
+COPY        php.ini /usr/local/etc/php/php.ini
