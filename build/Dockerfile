@@ -46,6 +46,17 @@ RUN         apt-get update \
             && docker-php-source delete \
             && rm -rf /var/lib/apt/lists/*
 
+# MCrypt
+RUN         apt-get update \
+            && apt-get install -fy \
+                libmcrypt-dev \
+            && docker-php-ext-install mcrypt \
+            && apt-get autoremove -fy \
+            && apt-get clean \
+            && apt-get autoclean -y \
+            && docker-php-source delete \
+            && rm -rf /var/lib/apt/lists/*
+
 # Composers
 RUN         curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
