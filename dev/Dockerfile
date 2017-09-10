@@ -204,5 +204,5 @@ COPY        php.ini /usr/local/etc/php/php.ini
 WORKDIR     /var/www
 
 # Startup Commands
-CMD         bash -c "composer install && php artisan migrate && php artisan serve --host 0.0.0.0 --port 80"
+CMD         bash -c "composer install && php artisan migrate && php -S 0.0.0.0:80 -t public"
 EXPOSE      80
