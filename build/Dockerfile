@@ -14,7 +14,7 @@ RUN         ln -sf /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
 
 # NodeJS
 ENV         NPM_CONFIG_LOGLEVEL info
-ENV         NODE_VERSION 8.4.0
+ENV         NODE_VERSION 8.5.0
 RUN         apk add --no-cache \
                 libstdc++ \
             && apk add --no-cache --virtual .build-deps \
