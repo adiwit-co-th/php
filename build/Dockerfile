@@ -12,6 +12,11 @@ MAINTAINER  Adiwit Co., Ltd. <info@adiwit.co.th>
 # Change System TimeZone to Asia/Bangkok
 RUN         ln -sf /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
 
+# Composer
+COPY        composer.json   /app
+RUN         composer install && composer update
+RUN         rm -rf /app/*
+
 # NodeJS
 ENV         NPM_CONFIG_LOGLEVEL info
 ENV         NODE_VERSION 8.5.0
@@ -75,6 +80,9 @@ RUN         apk add --no-cache --virtual .build-deps-yarn curl gnupg tar \
                 && ln -s /opt/yarn/bin/yarn /usr/local/bin/yarnpkg \
                 && rm yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz \
                 && apk del .build-deps-yarn
+COPY        package.json /app
+RUN         yarn
+RUN         rm -rf /app/*
 
 # Configurations
 COPY        php.ini /usr/local/etc/php/php.ini
