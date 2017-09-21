@@ -29,16 +29,6 @@ docker exec -it <project_name> php artisan key:generate
 
 ภายหลังจากที่ได้เปิดเซิร์ฟเวอร์จำลองขึ้นมาแล้ว
 
-### ไฟล์รูป และไฟล์ต่างที่ user เป็นผู้อัปโหลดขึ้นมา
-เพื่อป้องกันข้อมูลส่วนตัวของ User ขอความกรุณา Developer เซฟรูปใว้ที่ /storage/images/<project_name>s/ แล้วเรียกมาใช้ด้วยคำสั่ง return Image::make(storage_path('/images/project_name>s/') แทนที่จะเก็บใน public ข้อมูลเพิ่มเติม [คลิ๊ก](https://laracasts.com/discuss/channels/laravel/how-and-where-can-store-images-with-laravel?page=1) และกรุณาเก็บไฟล์แยกตามประเภทดังนี้ : 
-- ชื่อ folder มี s ต่อท้ายเป็นแบบ plural (พหูพจน์)
-- ไฟล์รูป เช่น JPG PNG GIF PSD AI กรุณาเก็บไฟล์ของ user ใว้ที่ storage/images/<project_name>s
-- ไฟล์เอกสาร เช่น DOC XLS PDF กรุณาเก็บไฟล์ของ user ใว้ที่ storage/documents/<project_name>s
-- ไฟล์ฟอนต์ เช่น OTF TTF EOF กรุณาเก็บไฟล์ของ user ใว้ที่ storage/fonts/<project_name>s
-- ไฟล์เพลง เช่น MP3 WAV กรุณาเก็บไฟล์ของ user ใว้ที่ storage/musics/<project_name>s
-- ไฟล์หนัง เช่น MP4 กรุณาเก็บไฟล์ของ user ใว้ที่ storage/movies/<project_name>s
-- ไฟล์อื่นๆ เช่น ZIP EXE MSI DMG กรุณาเก็บไฟล์ของ user ใว้ที่ storage/others/<project_name>s
-
 # คำแนะนำในการทำงาน การตั้งชื่อไฟล์ และการวางไฟล์ให้ถูกต้องตามโฟลเดอร์
 
 - สำหรับ FrontEnd Developer [คลิ๊ก](FrontEndReadMe.md)
