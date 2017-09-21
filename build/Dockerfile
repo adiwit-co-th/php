@@ -13,9 +13,12 @@ MAINTAINER  Adiwit Co., Ltd. <info@adiwit.co.th>
 RUN         ln -sf /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
 
 # Composer
-COPY        composer.json   /app
-RUN         composer install
-RUN         rm -rf /app/*
+COPY        composer-laravel54.json   /app/composer.json
+RUN         composer install \
+            && rm -rf /app/*
+COPY        composer-laravel55.json   /app/composer.json
+RUN         composer install \
+            && rm -rf /app/*
 
 # NodeJS
 ENV         NPM_CONFIG_LOGLEVEL info
