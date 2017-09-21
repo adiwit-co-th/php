@@ -14,7 +14,7 @@ RUN         ln -sf /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
 
 # Composer
 COPY        composer.json   /app
-RUN         composer install && composer update
+RUN         composer install
 RUN         rm -rf /app/*
 
 # NodeJS
