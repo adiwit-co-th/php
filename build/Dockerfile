@@ -7,7 +7,7 @@
 FROM        composer:latest
 
 # File Author / Maintainer
-MAINTAINER  Adiwit Co., Ltd. <info@adiwit.co.th>
+LABEL       maintainer="Adiwit Co., Ltd. <info@adiwit.co.th>"
 
 # Change System TimeZone to Asia/Bangkok
 RUN         ln -sf /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
@@ -16,11 +16,11 @@ RUN         ln -sf /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
 COPY        composer-laravel54.json /vendor/composer.json
 RUN         cd /vendor \
                 && composer install \
-                && rm /vendor/composer.json
+                && rm /vendor/composer.json /vendor/composer.lock
 COPY        composer-laravel55.json /vendor/composer.json
 RUN         cd /vendor \
                 && composer install \
-                && rm /vendor/composer.json
+                && rm /vendor/composer.json /vendor/composer.lock
 
 # NodeJS
 ENV         NPM_CONFIG_LOGLEVEL info
@@ -85,10 +85,10 @@ RUN         apk add --no-cache --virtual .build-deps-yarn curl gnupg tar \
                 && ln -s /opt/yarn/bin/yarn /usr/local/bin/yarnpkg \
                 && rm yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz \
                 && apk del .build-deps-yarn
-COPY        package.json /node_modules
-RUN         cd /node_modules \
+COPY        package.json /package.json
+RUN         cd / \
                 && yarn \
-                && rm package.json
+                && rm package.json yarn.lock
 
 # Configurations
 COPY        php.ini /usr/local/etc/php/php.ini
