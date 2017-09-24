@@ -13,12 +13,14 @@ MAINTAINER  Adiwit Co., Ltd. <info@adiwit.co.th>
 RUN         ln -sf /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
 
 # Composer
-COPY        composer-laravel54.json   /app/composer.json
-RUN         composer install \
-            && rm -rf /app/*
-COPY        composer-laravel55.json   /app/composer.json
-RUN         composer install \
-            && rm -rf /app/*
+COPY        composer-laravel54.json /vendor/composer.json
+RUN         cd /vendor \
+                && composer install \
+                && rm /vendor/composer.json
+COPY        composer-laravel55.json /vendor/composer.json
+RUN         cd /vendor \
+                && composer install \
+                && rm /vendor/composer.json
 
 # NodeJS
 ENV         NPM_CONFIG_LOGLEVEL info
@@ -83,9 +85,10 @@ RUN         apk add --no-cache --virtual .build-deps-yarn curl gnupg tar \
                 && ln -s /opt/yarn/bin/yarn /usr/local/bin/yarnpkg \
                 && rm yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz \
                 && apk del .build-deps-yarn
-COPY        package.json /app
-RUN         yarn
-RUN         rm -rf /app/*
+COPY        package.json /node_modules
+RUN         cd /node_modules \
+                && yarn \
+                && rm package.json
 
 # Configurations
 COPY        php.ini /usr/local/etc/php/php.ini
