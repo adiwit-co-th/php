@@ -12,16 +12,6 @@ LABEL       maintainer="Adiwit Co., Ltd. <info@adiwit.co.th>"
 # Change System TimeZone to Asia/Bangkok
 RUN         ln -sf /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
 
-# Composer
-COPY        composer-laravel54.json /vendor/composer.json
-RUN         cd /vendor \
-                && composer install \
-                && rm /vendor/composer.json /vendor/composer.lock
-COPY        composer-laravel55.json /vendor/composer.json
-RUN         cd /vendor \
-                && composer install \
-                && rm /vendor/composer.json /vendor/composer.lock
-
 # NodeJS
 ENV         NPM_CONFIG_LOGLEVEL info
 ENV         NODE_VERSION 8.5.0
@@ -85,6 +75,16 @@ RUN         apk add --no-cache --virtual .build-deps-yarn curl gnupg tar \
                 && ln -s /opt/yarn/bin/yarn /usr/local/bin/yarnpkg \
                 && rm yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz \
                 && apk del .build-deps-yarn
+
+# PreLoad /vendor & /node_modules
+COPY        composer-laravel54.json /composer.json
+RUN         cd / \
+                && composer install \
+                && rm /composer.json /composer.lock
+COPY        composer-laravel55.json /composer.json
+RUN         cd / \
+                && composer install \
+                && rm /composer.json /composer.lock
 COPY        package.json /package.json
 RUN         cd / \
                 && yarn \
