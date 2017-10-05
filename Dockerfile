@@ -7,7 +7,7 @@
 FROM        php:7.1-fpm
 
 # File Author / Maintainer
-MAINTAINER  Adiwit Co., Ltd. <info@adiwit.co.th>
+LABEL       maintainer=info@adiwit.co.th
 
 # Environmental Variables
 ARG         DEBIAN_FRONTEND=noninteractive
