@@ -7,7 +7,7 @@
 FROM        php:cli
 
 # File Author / Maintainer
-MAINTAINER  Adiwit Co., Ltd. <info@adiwit.co.th>
+LABEL       maintainer=info@adiwit.co.th
 
 # Environmental Variables
 ARG         DEBIAN_FRONTEND=noninteractive
@@ -194,9 +194,6 @@ RUN         apt-get update \
             && apt-get clean \
             && apt-get autoclean -y
             
-# Composers
-RUN         curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
 # Configurations
 COPY        php.ini /usr/local/etc/php/php.ini
 
@@ -204,5 +201,5 @@ COPY        php.ini /usr/local/etc/php/php.ini
 WORKDIR     /var/www
 
 # Startup Commands
-CMD         bash -c "composer install && php artisan migrate && php -S 0.0.0.0:80 -t public"
+CMD         bash -c "php -v && php -S 0.0.0.0:80 -t public"
 EXPOSE      80
