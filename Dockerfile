@@ -1,10 +1,10 @@
 #####################################################
 # Dockerfile to customeize PHP for Laravel project
-# Based on the official PHP-FPM 7.1
+# Based on the official PHP-FPM
 #####################################################
 
 # Set the base image
-FROM        php:7.1-fpm
+FROM        php:fpm
 
 # File Author / Maintainer
 LABEL       maintainer=info@adiwit.co.th

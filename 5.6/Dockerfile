@@ -1,6 +1,6 @@
 #####################################################
 # Dockerfile to customeize PHP for Laravel project
-# Based on the official PHP-FPM 7.1
+# Based on the official PHP-FPM 5.6
 #####################################################
 
 # Set the base image
