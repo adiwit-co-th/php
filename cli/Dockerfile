@@ -190,10 +190,25 @@ RUN         apt-get update \
                 libjpeg62 \
             && wget https://github.com/h4cc/wkhtmltopdf-amd64/blob/master/bin/wkhtmltopdf-amd64?raw=true -O /usr/local/bin/wkhtmltopdf \
             && chmod +x /usr/local/bin/wkhtmltopdf \
+            && rm -rf /var/lib/apt/lists/* \
             && apt-get autoremove -fy \
             && apt-get clean \
             && apt-get autoclean -y
             
+# IMAP
+RUN         apt-get update \
+            && apt-get install --no-install-recommends -fy \
+                libc-client-dev \
+                libkrb5-dev \
+            && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
+            && docker-php-ext-install imap \
+            && docker-php-ext-enable imap \
+            && apt-get autoremove -fy \
+            && apt-get clean \
+            && apt-get autoclean -y \
+            && docker-php-source delete \
+            && rm -rf /var/lib/apt/lists/*
+
 # Configurations
 COPY        php.ini /usr/local/etc/php/php.ini
 
