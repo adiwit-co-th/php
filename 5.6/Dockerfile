@@ -158,6 +158,9 @@ RUN         apt-get update \
             && docker-php-source delete \
             && rm -rf /var/lib/apt/lists/*
 
+# Composer
+RUN         wget https://getcomposer.org/installer -O - -q | php -- --no-ansi --install-dir=/usr/bin --filename=composer
+
 # Configurations
 COPY        php.ini /usr/local/etc/php/php.ini
 
