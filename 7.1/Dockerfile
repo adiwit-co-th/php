@@ -189,7 +189,7 @@ RUN         apt-get update \
                 libxtst6 \
                 libx11-dev \
                 libjpeg62 \
-            && wget https://github.com/h4cc/wkhtmltopdf-amd64/blob/master/bin/wkhtmltopdf-amd64?raw=true -O /usr/local/bin/wkhtmltopdf \
+            && wget https://github.com/h4cc/wkhtmltopdf-amd64/blob/master/bin/wkhtmltopdf-amd64?raw=true --no-verbose -O /usr/local/bin/wkhtmltopdf \
             && chmod +x /usr/local/bin/wkhtmltopdf \
             && rm -rf /var/lib/apt/lists/* \
             && apt-get autoremove -fy \
