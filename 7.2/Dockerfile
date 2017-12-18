@@ -207,6 +207,12 @@ RUN         apt-get update \
             && docker-php-source delete \
             && rm -rf /var/lib/apt/lists/*
 
+# XDEBUG
+RUN         pecl install xdebug \
+            && docker-php-ext-enable xdebug \
+            && docker-php-source delete \
+            && rm -rf /var/lib/apt/lists/*
+
 # Configurations
 COPY        php.ini /usr/local/etc/php/php.ini
 
