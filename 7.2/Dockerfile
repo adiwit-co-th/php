@@ -213,6 +213,15 @@ RUN         pecl install xdebug \
             && docker-php-source delete \
             && rm -rf /var/lib/apt/lists/*
 
+# SSH
+RUN         apt-get update \
+            && apt-get install --no-install-recommends -fy \
+                openssh-client \
+            && apt-get autoremove -fy \
+            && apt-get clean \
+            && apt-get autoclean -y \
+            && rm -rf /var/lib/apt/lists/*
+
 # Configurations
 COPY        php.ini /usr/local/etc/php/php.ini
 
