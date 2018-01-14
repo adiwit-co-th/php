@@ -4,7 +4,7 @@
 #####################################################
 
 # Set the base image
-FROM        php:7.2-rc-fpm
+FROM        php:7.2-fpm
 
 # File Author / Maintainer
 LABEL       maintainer=info@adiwit.co.th
@@ -16,7 +16,7 @@ ARG         DEBIAN_FRONTEND=noninteractive
 RUN         ln -sf /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
 
 # Update Repositories
-RUN         apt-get update \
+RUN         apt-get update --fix-missing \
             && apt-get upgrade -fy \
             && apt-get dist-upgrade -fy \
             && apt-get install --no-install-recommends -fy \
@@ -33,7 +33,7 @@ RUN         apt-get update \
             && rm -rf /var/lib/apt/lists/*
 
 # BZ2
-RUN         apt-get update \
+RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -fy \
                 bzip2 \
                 bzip2-doc \
@@ -45,13 +45,14 @@ RUN         apt-get update \
             && docker-php-source delete \
             && rm -rf /var/lib/apt/lists/*
 # GD
-RUN         apt-get update \
+RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -fy \
                 libfreetype6-dev \
                 libjpeg62-turbo-dev \
                 libpng12-dev \
             && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
             && docker-php-ext-install gd \
+            && docker-php-ext-enable gd \
             && apt-get autoremove -fy \
             && apt-get clean \
             && apt-get autoclean -y \
@@ -64,7 +65,7 @@ RUN         docker-php-ext-install gettext \
             && rm -rf /var/lib/apt/lists/*
 
 # MCrypt
-RUN         apt-get update \
+RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -fy \
                 libmcrypt-dev \
             && docker-php-ext-install mcrypt \
@@ -75,7 +76,7 @@ RUN         apt-get update \
             && rm -rf /var/lib/apt/lists/*
             
 # Memcached
-RUN         apt-get update \
+RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -fy \
                 libmemcached-dev \
                 zlib1g-dev \
@@ -102,7 +103,7 @@ RUN         docker-php-ext-install mysqli \
             && rm -rf /var/lib/apt/lists/*
 
 # PostgreSQL
-RUN         apt-get update \
+RUN         apt-get update --fix-missing \
             && apt-get install -y libpq-dev \
             && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
             && docker-php-ext-install pdo pdo_pgsql pgsql \
@@ -113,7 +114,7 @@ RUN         apt-get update \
             && rm -rf /var/lib/apt/lists/*
 
 # Redis
-RUN         apt-get update \
+RUN         apt-get update --fix-missing \
             && apt-get install -y libhiredis-dev \
             && pecl channel-update pecl.php.net \
             && pecl install redis \
@@ -137,9 +138,10 @@ RUN         apt-get update \
 
 # SQL Server
 ENV         ACCEPT_EULA=Y
-RUN         curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+RUN         sed -i "s/jessie/stretch/g" /etc/apt/sources.list \
+            && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
             && curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql.list \
-            && apt-get update \
+            && apt-get update --fix-missing \
             && apt-get install --no-install-recommends -y \
                 unixodbc \
                 odbcinst1debian2 \
@@ -154,7 +156,8 @@ RUN         curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add
             && docker-php-ext-enable \
                 sqlsrv \
                 pdo_sqlsrv \
-            && apt-get update \
+            && sed -i "s/stretch/jessie/g" /etc/apt/sources.list \
+            && apt-get update --fix-missing \
             && echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile \
             && echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc \
             && apt-get autoremove -fy \
@@ -164,7 +167,7 @@ RUN         curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add
             && rm -rf /var/lib/apt/lists/*
 
 # Zip
-RUN         apt-get update \
+RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -fy \
                 zip \
                 unzip \
@@ -176,7 +179,7 @@ RUN         apt-get update \
             && rm -rf /var/lib/apt/lists/*
 
 # PDF
-RUN         apt-get update \
+RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -fy \
                 libthai0 \
                 xfonts-thai \
@@ -194,7 +197,7 @@ RUN         apt-get update \
             && apt-get autoclean -y
 
 # IMAP
-RUN         apt-get update \
+RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -fy \
                 libc-client-dev \
                 libkrb5-dev \
@@ -208,19 +211,23 @@ RUN         apt-get update \
             && rm -rf /var/lib/apt/lists/*
 
 # XDEBUG
-RUN         pecl install xdebug \
-            && docker-php-ext-enable xdebug \
-            && docker-php-source delete \
-            && rm -rf /var/lib/apt/lists/*
+# RUN         pecl install xdebug \
+#             && docker-php-ext-enable xdebug \
+#             && docker-php-source delete \
+#             && rm -rf /var/lib/apt/lists/*
 
 # SSH
-RUN         apt-get update \
+RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -fy \
                 openssh-client \
             && apt-get autoremove -fy \
             && apt-get clean \
             && apt-get autoclean -y \
             && rm -rf /var/lib/apt/lists/*
+
+# Composer
+RUN         wget https://getcomposer.org/installer -O - -q | php -- --no-ansi --install-dir=/usr/bin --filename=composer \
+            && composer global require hirak/prestissimo
 
 # Configurations
 COPY        php.ini /usr/local/etc/php/php.ini

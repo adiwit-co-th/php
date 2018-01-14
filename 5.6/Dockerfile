@@ -16,7 +16,7 @@ ARG         DEBIAN_FRONTEND=noninteractive
 RUN         ln -sf /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
 
 # Update Repositories
-RUN         apt-get update \
+RUN         apt-get update --fix-missing \
             && apt-get upgrade -fy \
             && apt-get dist-upgrade -fy \
             && apt-get install -fy \
@@ -33,7 +33,7 @@ RUN         apt-get update \
             && rm -rf /var/lib/apt/lists/*
 
 # BZ2
-RUN         apt-get update \
+RUN         apt-get update --fix-missing \
             && apt-get install -fy \
                 bzip2 \
                 bzip2-doc \
@@ -45,7 +45,7 @@ RUN         apt-get update \
             && docker-php-source delete \
             && rm -rf /var/lib/apt/lists/*
 # GD
-RUN         apt-get update \
+RUN         apt-get update --fix-missing \
             && apt-get install -fy \
                 libfreetype6-dev \
                 libjpeg62-turbo-dev \
@@ -64,7 +64,7 @@ RUN         docker-php-ext-install gettext \
             && rm -rf /var/lib/apt/lists/*
 
 # MCrypt
-RUN         apt-get update \
+RUN         apt-get update --fix-missing \
             && apt-get install -fy \
                 libmcrypt-dev \
             && docker-php-ext-install mcrypt \
@@ -81,7 +81,7 @@ RUN         docker-php-ext-install mysqli \
             && rm -rf /var/lib/apt/lists/*
 
 # PostgreSQL
-RUN         apt-get update \
+RUN         apt-get update --fix-missing \
             && apt-get install -y libpq-dev \
             && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
             && docker-php-ext-install pdo pdo_pgsql pgsql \
@@ -92,7 +92,7 @@ RUN         apt-get update \
             && rm -rf /var/lib/apt/lists/*
 
 # Redis
-RUN         apt-get update \
+RUN         apt-get update --fix-missing \
             && apt-get install -y libhiredis-dev \
             && pecl channel-update pecl.php.net \
             && pecl install redis \
@@ -115,7 +115,7 @@ RUN         apt-get update \
             && rm -rf /var/lib/apt/lists/*
 
 # Zip
-RUN         apt-get update \
+RUN         apt-get update --fix-missing \
             && apt-get install -fy \
                 zip \
                 unzip \
@@ -127,7 +127,7 @@ RUN         apt-get update \
             && rm -rf /var/lib/apt/lists/*
 
 # PDF
-RUN         apt-get update \
+RUN         apt-get update --fix-missing \
             && apt-get install -fy \
                 libthai0 \
                 xfonts-thai \
@@ -145,7 +145,7 @@ RUN         apt-get update \
             && apt-get autoclean -y
             
 # IMAP
-RUN         apt-get update \
+RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -fy \
                 libc-client-dev \
                 libkrb5-dev \
@@ -165,7 +165,7 @@ RUN         pecl install xdebug \
             && rm -rf /var/lib/apt/lists/*
 
 # SSH
-RUN         apt-get update \
+RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -fy \
                 openssh-client \
             && apt-get autoremove -fy \
