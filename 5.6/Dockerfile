@@ -158,12 +158,6 @@ RUN         apt-get update --fix-missing \
             && docker-php-source delete \
             && rm -rf /var/lib/apt/lists/*
 
-# XDEBUG
-RUN         pecl install xdebug \
-            && docker-php-ext-enable xdebug \
-            && docker-php-source delete \
-            && rm -rf /var/lib/apt/lists/*
-
 # SSH
 RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -fy \
