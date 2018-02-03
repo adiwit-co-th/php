@@ -52,7 +52,6 @@ RUN         apt-get update --fix-missing \
                 libpng12-dev \
             && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
             && docker-php-ext-install gd \
-            && docker-php-ext-enable gd \
             && apt-get autoremove -fy \
             && apt-get clean \
             && apt-get autoclean -y \
@@ -138,9 +137,11 @@ RUN         apt-get update --fix-missing \
 
 # SQL Server
 ENV         ACCEPT_EULA=Y
-RUN         sed -i "s/jessie/stretch/g" /etc/apt/sources.list \
+RUN         apt-get update --fix-missing \
+            && apt-get install --no-install-recommends -fy \
+                gnupg \
             && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-            && curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql.list \
+            && curl https://packages.microsoft.com/config/debian/8/prod.list > /etc/apt/sources.list.d/mssql.list \
             && apt-get update --fix-missing \
             && apt-get install --no-install-recommends -y \
                 unixodbc \
@@ -154,11 +155,9 @@ RUN         sed -i "s/jessie/stretch/g" /etc/apt/sources.list \
             && pecl install sqlsrv-4.1.6.1 \
             && pecl install pdo_sqlsrv-4.1.6.1 \
             && docker-php-ext-enable \
-                sqlsrv \
-                pdo_sqlsrv \
-            && sed -i "s/stretch/jessie/g" /etc/apt/sources.list \
-            && apt-get update --fix-missing \
-            && echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile \
+                sqlsrv.so \
+                pdo_pgsql.so \
+            echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile \
             && echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc \
             && apt-get autoremove -fy \
             && apt-get clean \
@@ -203,7 +202,6 @@ RUN         apt-get update --fix-missing \
                 libkrb5-dev \
             && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
             && docker-php-ext-install imap \
-            && docker-php-ext-enable imap \
             && apt-get autoremove -fy \
             && apt-get clean \
             && apt-get autoclean -y \

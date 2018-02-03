@@ -151,7 +151,6 @@ RUN         apt-get update --fix-missing \
                 libkrb5-dev \
             && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
             && docker-php-ext-install imap \
-            && docker-php-ext-enable imap \
             && apt-get autoremove -fy \
             && apt-get clean \
             && apt-get autoclean -y \
