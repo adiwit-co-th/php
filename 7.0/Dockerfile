@@ -67,8 +67,7 @@ RUN         docker-php-ext-install gettext \
 RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -fy \
                 libmcrypt-dev \
-            && pecl install mcrypt-1.0.0 \
-            && docker-php-ext-enable mcrypt \
+            && docker-php-ext-install mcrypt \
             && apt-get autoremove -fy \
             && apt-get clean \
             && apt-get autoclean -y \
