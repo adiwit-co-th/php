@@ -214,6 +214,16 @@ RUN         apt-get update --fix-missing \
 #             && docker-php-source delete \
 #             && rm -rf /var/lib/apt/lists/*
 
+# BCMATH
+RUN         apt-get update --fix-missing \
+            && docker-php-ext-configure bcmath \
+            && docker-php-ext-install bcmath \
+            && apt-get autoremove -fy \
+            && apt-get clean \
+            && apt-get autoclean -y \
+            && docker-php-source delete \
+            && rm -rf /var/lib/apt/lists/*
+
 # SSH
 RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -fy \

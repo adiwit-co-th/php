@@ -213,6 +213,16 @@ RUN         apt-get update --fix-missing \
 #             && docker-php-source delete \
 #             && rm -rf /var/lib/apt/lists/*
 
+# BCMATH
+RUN         apt-get update --fix-missing \
+            && docker-php-ext-configure bcmath \
+            && docker-php-ext-install bcmath \
+            && apt-get autoremove -fy \
+            && apt-get clean \
+            && apt-get autoclean -y \
+            && docker-php-source delete \
+            && rm -rf /var/lib/apt/lists/*
+
 # SSH
 RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -fy \
@@ -228,6 +238,3 @@ RUN         wget https://getcomposer.org/installer -O - -q | php -- --no-ansi --
 
 # Configurations
 COPY        php.ini /usr/local/etc/php/php.ini
-
-# Set working directory for BASH
-WORKDIR     /var/www
