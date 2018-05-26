@@ -156,7 +156,7 @@ RUN         apt-get update --fix-missing \
             && pecl install pdo_sqlsrv-4.1.6.1 \
             && docker-php-ext-enable \
                 sqlsrv.so \
-                pdo_pgsql.so \
+                pdo_sqlsrv.so \
             && echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile \
             && echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc \
             && apt-get autoremove -fy \

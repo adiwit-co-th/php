@@ -142,7 +142,7 @@ RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -fy \
                 gnupg \
             && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-            && curl https://packages.microsoft.com/config/debian/8/prod.list > /etc/apt/sources.list.d/mssql.list \
+            && curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql.list \
             && apt-get update --fix-missing \
             && apt-get install --no-install-recommends -y \
                 unixodbc \
@@ -157,7 +157,7 @@ RUN         apt-get update --fix-missing \
             && pecl install pdo_sqlsrv-4.1.6.1 \
             && docker-php-ext-enable \
                 sqlsrv.so \
-                pdo_pgsql.so \
+                pdo_sqlsrv.so \
             && echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile \
             && echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc \
             && apt-get autoremove -fy \
