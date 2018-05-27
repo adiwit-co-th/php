@@ -49,7 +49,7 @@ RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -fy \
                 libfreetype6-dev \
                 libjpeg62-turbo-dev \
-                libpng12-dev \
+                libpng-dev \
             && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
             && docker-php-ext-install gd \
             && apt-get autoremove -fy \
@@ -141,14 +141,14 @@ RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -fy \
                 gnupg \
             && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-            && curl https://packages.microsoft.com/config/debian/8/prod.list > /etc/apt/sources.list.d/mssql.list \
+            && curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql.list \
             && apt-get update --fix-missing \
             && apt-get install --no-install-recommends -y \
                 unixodbc \
                 odbcinst1debian2 \
                 unixodbc-dev \
                 locales \
-                msodbcsql \
+                msodbcsql17 \
                 mssql-tools \
             && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
             && locale-gen \

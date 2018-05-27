@@ -149,7 +149,7 @@ RUN         apt-get update --fix-missing \
                 odbcinst1debian2 \
                 unixodbc-dev \
                 locales \
-                msodbcsql \
+                msodbcsql17 \
                 mssql-tools \
             && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
             && locale-gen \
@@ -160,6 +160,7 @@ RUN         apt-get update --fix-missing \
                 pdo_sqlsrv.so \
             && echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile \
             && echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc \
+            && source ~/.bashrc \
             && apt-get autoremove -fy \
             && apt-get clean \
             && apt-get autoclean -y \
