@@ -157,6 +157,13 @@ RUN         apt-get update --fix-missing \
             && docker-php-source delete \
             && rm -rf /var/lib/apt/lists/*
 
+# XDEBUG
+# Xdebug can cause Composer to take minutes even when running a command as simple as composer --version
+# RUN         pecl install xdebug \
+#             && docker-php-ext-enable xdebug \
+#             && docker-php-source delete \
+#             && rm -rf /var/lib/apt/lists/*
+
 # BCMATH
 RUN         apt-get update --fix-missing \
             && docker-php-ext-configure bcmath \
@@ -177,7 +184,9 @@ RUN         apt-get update --fix-missing \
             && rm -rf /var/lib/apt/lists/*
 
 # Composer
-RUN         wget https://getcomposer.org/installer -O - -q | php -- --no-ansi --install-dir=/usr/bin --filename=composer
+RUN         wget https://getcomposer.org/installer -O - -q | php -- --no-ansi --install-dir=/usr/bin --filename=composer \
+            && composer config --global repo.packagist composer https://packagist.org \
+            && composer global require hirak/prestissimo
 
 # Configurations
 COPY        php.ini /usr/local/etc/php/php.ini
