@@ -74,7 +74,7 @@ RUN         apt-get update --fix-missing \
             && apt-get autoclean -y \
             && docker-php-source delete \
             && rm -rf /var/lib/apt/lists/*
-            
+
 # Memcached
 RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -fy \
@@ -142,8 +142,14 @@ RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -fy \
                 gnupg \
             && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+            && curl https://packages.microsoft.com/config/debian/8/prod.list > /etc/apt/sources.list.d/mssql-release.list \
             && curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql.list \
             && apt-get update --fix-missing \
+            && ACCEPT_EULA=Y apt-get install msodbcsql17 \
+            && echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile \
+            && echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc \
+            && source ~/.bashrc \
+            && sudo apt-get install unixodbc-dev \
             && apt-get install --no-install-recommends -y \
                 unixodbc \
                 odbcinst1debian2 \
