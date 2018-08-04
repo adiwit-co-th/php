@@ -226,6 +226,17 @@ RUN         apt-get update --fix-missing \
             && docker-php-source delete \
             && rm -rf /var/lib/apt/lists/*
 
+# ActiveDirectory / LDAP
+RUN         apt-get update --fix-missing \
+            && apt-get install libldap2-dev -y \
+            && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
+            && docker-php-ext-install ldap \
+            && apt-get autoremove -fy \
+            && apt-get clean \
+            && apt-get autoclean -y \
+            && docker-php-source delete \
+            && rm -rf /var/lib/apt/lists/*
+
 # SSH
 RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -fy \
