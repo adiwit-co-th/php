@@ -67,13 +67,14 @@ RUN         docker-php-ext-install gettext \
 RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -fy \
                 libmcrypt-dev \
-            && docker-php-ext-install mcrypt \
+            && pecl install mcrypt-1.0.1 \
+            && docker-php-ext-enable mcrypt \
             && apt-get autoremove -fy \
             && apt-get clean \
             && apt-get autoclean -y \
             && docker-php-source delete \
             && rm -rf /var/lib/apt/lists/*
-            
+
 # Memcached
 RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -fy \
@@ -254,6 +255,3 @@ RUN         wget https://getcomposer.org/installer -O - -q | php -- --no-ansi --
 
 # Configurations
 COPY        php.ini /usr/local/etc/php/php.ini
-
-# Set working directory for BASH
-WORKDIR     /var/www
