@@ -251,7 +251,9 @@ RUN         wget https://getcomposer.org/installer -O - -q | php -- --no-ansi --
             && composer config --global repo.packagist composer https://packagist.org \
             && composer global require hirak/prestissimo \
             && composer global require laravel/installer \
-            && export PATH="~/.composer/vendor/bin:$PATH"
+            && export PATH="~/.composer/vendor/bin:$PATH" \
+            && mkdir -p /root/.ssh \
+            && echo "StrictHostKeyChecking no" > /root/.ssh/config
 
 # Configurations
 COPY        php.ini /usr/local/etc/php/php.ini
