@@ -64,16 +64,16 @@ RUN         docker-php-ext-install gettext \
             && rm -rf /var/lib/apt/lists/*
 
 # MCrypt
-RUN         apt-get update --fix-missing \
-            && apt-get install --no-install-recommends -fy \
-                libmcrypt-dev \
-            && pecl install mcrypt-1.0.1 \
-            && docker-php-ext-enable mcrypt \
-            && apt-get autoremove -fy \
-            && apt-get clean \
-            && apt-get autoclean -y \
-            && docker-php-source delete \
-            && rm -rf /var/lib/apt/lists/*
+# RUN         apt-get update --fix-missing \
+#             && apt-get install --no-install-recommends -fy \
+#                 libmcrypt-dev \
+#             && pecl install mcrypt-1.0.1 \
+#             && docker-php-ext-enable mcrypt \
+#             && apt-get autoremove -fy \
+#             && apt-get clean \
+#             && apt-get autoclean -y \
+#             && docker-php-source delete \
+#             && rm -rf /var/lib/apt/lists/*
 
 # Memcached
 RUN         apt-get update --fix-missing \
