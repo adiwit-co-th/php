@@ -257,14 +257,3 @@ RUN         wget https://getcomposer.org/installer -O - -q | php -- --no-ansi --
 
 # Configurations
 COPY        php.ini /usr/local/etc/php/php.ini
-
-# OpenSSL
-RUN         apt-get update --fix-missing \
-            && apt-get install openssl \
-            && docker-php-ext-configure openssl \
-            && docker-php-ext-install openssl \
-            && apt-get autoremove -fy \
-            && apt-get clean \
-            && apt-get autoclean -y \
-            && docker-php-source delete \
-            && rm -rf /var/lib/apt/lists/*
