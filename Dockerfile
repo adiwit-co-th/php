@@ -141,8 +141,8 @@ RUN         apt-get update --fix-missing \
                 mssql-tools \
             && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
             && locale-gen \
-            && pecl install sqlsrv-5.2.0 \
-            && pecl install pdo_sqlsrv-5.2.0 \
+            && pecl install sqlsrv-5.3.0 \
+            && pecl install pdo_sqlsrv-5.3.0 \
             && docker-php-ext-enable \
                 sqlsrv.so \
                 pdo_sqlsrv.so \
@@ -223,6 +223,15 @@ RUN         apt-get update --fix-missing \
             && apt-get clean \
             && apt-get autoclean -y \
             && docker-php-source delete \
+            && rm -rf /var/lib/apt/lists/*
+
+# Graphviz
+RUN         apt-get update --fix-missing \
+            && apt-get install --no-install-recommends -fy \
+                apt-get install graphviz \
+            && apt-get autoremove -fy \
+            && apt-get clean \
+            && apt-get autoclean -y \
             && rm -rf /var/lib/apt/lists/*
 
 # SSH

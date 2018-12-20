@@ -237,6 +237,15 @@ RUN         apt-get update --fix-missing \
             && docker-php-source delete \
             && rm -rf /var/lib/apt/lists/*
 
+# Graphviz
+RUN         apt-get update --fix-missing \
+            && apt-get install --no-install-recommends -fy \
+                apt-get install graphviz \
+            && apt-get autoremove -fy \
+            && apt-get clean \
+            && apt-get autoclean -y \
+            && rm -rf /var/lib/apt/lists/*
+
 # SSH
 RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -fy \
@@ -245,7 +254,6 @@ RUN         apt-get update --fix-missing \
             && apt-get clean \
             && apt-get autoclean -y \
             && rm -rf /var/lib/apt/lists/*
-
 # Composer
 RUN         wget https://getcomposer.org/installer -O - -q | php -- --no-ansi --install-dir=/usr/bin --filename=composer \
             && composer config --global repo.packagist composer https://packagist.org \
