@@ -240,7 +240,7 @@ RUN         apt-get update --fix-missing \
 # Graphviz
 RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -fy \
-                apt-get install graphviz \
+                graphviz \
             && apt-get autoremove -fy \
             && apt-get clean \
             && apt-get autoclean -y \
@@ -260,6 +260,10 @@ RUN         wget https://getcomposer.org/installer -O - -q | php -- --no-ansi --
             && composer config --global repo.packagist composer https://packagist.org \
             && composer global require hirak/prestissimo \
             && composer global require laravel/installer \
+            && composer global require phpunit/phpunit \
+            && composer global require squizlabs/php_codesniffer \
+            && composer global require beyondcode/laravel-self-diagnosis \
+            && composer global require beyondcode/laravel-er-diagram-generator \
             && export PATH="~/.composer/vendor/bin:$PATH" \
             && mkdir -p /root/.ssh \
             && echo "StrictHostKeyChecking no" > /root/.ssh/config
