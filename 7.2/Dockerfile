@@ -151,7 +151,7 @@ RUN         apt-get update --fix-missing \
                 locales \
                 msodbcsql17 \
                 mssql-tools \
-            && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
+            && echo "th_TH th_TH.UTF-8 en_US en_US.UTF-8 UTF-8" > /etc/locale.gen \
             && locale-gen \
             && pecl install sqlsrv-5.2.0 \
             && pecl install pdo_sqlsrv-5.2.0 \
