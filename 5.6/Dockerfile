@@ -16,8 +16,7 @@ ARG         DEBIAN_FRONTEND=noninteractive
 RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -y \
                 locales \
-            && echo "th_TH.UTF-8 UTF-8 \
-                en_US.UTF-8 UTF-8" > /etc/locale.gen \
+            && printf "th_TH.UTF-8 UTF-8\nen_US UTF-8\nen_US.UTF-8 UTF-8\n" > /etc/locale.gen \
             && locale-gen \
             && apt-get autoremove -fy \
             && apt-get clean \
