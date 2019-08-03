@@ -235,6 +235,11 @@ RUN         apt-get update --fix-missing \
             && apt-get autoclean -y \
             && rm -rf /var/lib/apt/lists/*
 
+# Calendar
+RUN         docker-php-ext-install calendar \
+            && docker-php-source delete \
+            && rm -rf /var/lib/apt/lists/*
+
 # SSH
 RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -fy \

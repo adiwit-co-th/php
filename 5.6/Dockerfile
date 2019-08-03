@@ -194,6 +194,20 @@ RUN         apt-get update --fix-missing \
             && docker-php-source delete \
             && rm -rf /var/lib/apt/lists/*
 
+# Graphviz
+RUN         apt-get update --fix-missing \
+            && apt-get install --no-install-recommends -fy \
+                graphviz \
+            && apt-get autoremove -fy \
+            && apt-get clean \
+            && apt-get autoclean -y \
+            && rm -rf /var/lib/apt/lists/*
+
+# Calendar
+RUN         docker-php-ext-install calendar \
+            && docker-php-source delete \
+            && rm -rf /var/lib/apt/lists/*
+
 # SSH
 RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -fy \
