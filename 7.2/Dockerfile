@@ -26,6 +26,7 @@ RUN         apt-get update --fix-missing \
                 apt-transport-https \
                 git \
                 wget \
+                rsync \
             && apt-get autoremove -fy \
             && apt-get clean \
             && apt-get autoclean -y \
