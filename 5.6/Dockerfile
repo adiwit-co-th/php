@@ -104,7 +104,7 @@ RUN         apt-get update --fix-missing \
 RUN         apt-get update --fix-missing \
             && apt-get install -y libhiredis-dev \
             && pecl channel-update pecl.php.net \
-            && pecl install redis \
+            && pecl install redis-4.3.0 \
             && docker-php-ext-enable redis \
             && git clone https://github.com/nrk/phpiredis.git \
             && ( \
