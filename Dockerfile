@@ -172,7 +172,7 @@ RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -fy \
                 libthai0 \
                 xfonts-thai \
-                pdftk \
+#                pdftk \
                 libxrender1 \
                 libfontconfig1 \
                 libxtst6 \
