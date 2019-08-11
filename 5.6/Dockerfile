@@ -169,7 +169,7 @@ RUN         apt-get update --fix-missing \
 
 # XDEBUG
 # Xdebug can cause Composer to take minutes even when running a command as simple as composer --version
-RUN         pecl install xdebug \
+RUN         pecl install xdebug-2.5.5 \
             && docker-php-ext-enable xdebug \
             && docker-php-source delete \
             && rm -rf /var/lib/apt/lists/*
