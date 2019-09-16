@@ -49,10 +49,17 @@ RUN         apt-get update --fix-missing \
 RUN         apt-get update --fix-missing \
             && apt-get install --no-install-recommends -fy \
                 libfreetype6-dev \
+                libjpeg-dev \
                 libjpeg62-turbo-dev \
                 libpng-dev \
-            && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+                libpng12-dev \
+            && docker-php-ext-configure gd \
+                --enable-gd-native-ttf \
+                --with-freetype-dir=/usr/include/freetype2 \
+                --with-png-dir=/usr/include \
+                --with-jpeg-dir=/usr/include \
             && docker-php-ext-install gd \
+            && docker-php-ext-enable gd  \
             && apt-get autoremove -fy \
             && apt-get clean \
             && apt-get autoclean -y \
