@@ -149,8 +149,8 @@ RUN         apt-get update --fix-missing \
                 mssql-tools \
             && printf "th_TH.UTF-8 UTF-8\nen_US UTF-8\nen_US.UTF-8 UTF-8\n" > /etc/locale.gen \
             && locale-gen \
-            && pecl install sqlsrv-5.4.0preview \
-            && pecl install pdo_sqlsrv-5.4.0preview \
+            && pecl install sqlsrv-5.6.1 \
+            && pecl install pdo_sqlsrv-5.6.1 \
             && docker-php-ext-enable \
                 sqlsrv.so \
                 pdo_sqlsrv.so \
