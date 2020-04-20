@@ -63,6 +63,7 @@ RUN         apt-get update --fix-missing \
     libjpeg62-turbo-dev \
     libpng-dev \
     && docker-php-ext-configure gd \
+    --with-jpeg-dir=/usr/include \
     --with-freetype-dir=/usr/include/freetype2 \
     && docker-php-ext-install gd \
     && docker-php-ext-enable gd  \
