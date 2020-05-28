@@ -275,6 +275,17 @@ RUN         docker-php-ext-configure calendar \
     && docker-php-source delete \
     && rm -rf /var/lib/apt/lists/*
 
+# Intl
+RUN         apt-get update --fix-missing \
+    && apt-get install --no-install-recommends --fix-missing -fy \
+    libicu-dev \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl \
+    && apt-get autoremove -fy \
+    && apt-get clean \
+    && apt-get autoclean -y \
+    && rm -rf /var/lib/apt/lists/*
+
 # SSH
 RUN         apt-get update --fix-missing \
     && apt-get install --no-install-recommends --fix-missing -fy \
