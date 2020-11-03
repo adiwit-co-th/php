@@ -298,7 +298,6 @@ RUN         apt-get update --fix-missing \
 # Composer
 RUN         wget https://getcomposer.org/installer -O - -q | php -- --no-ansi --install-dir=/usr/bin --filename=composer \
     && composer config --global repo.packagist composer https://packagist.org \
-    && composer global require hirak/prestissimo \
     && composer global require laravel/installer \
     && composer global require phpunit/phpunit \
     && composer global require squizlabs/php_codesniffer \

@@ -245,7 +245,6 @@ RUN         apt-get update \
 # Composer
 RUN         wget https://getcomposer.org/installer -O - -q | php -- --no-ansi --install-dir=/usr/bin --filename=composer \
     && composer config --global repo.packagist composer https://packagist.org \
-    && composer global require hirak/prestissimo \
     && composer global require laravel/installer \
     && export PATH="~/.composer/vendor/bin:$PATH" \
     && mkdir -p /root/.ssh \
