@@ -286,6 +286,17 @@ RUN         apt-get update --fix-missing \
     && apt-get autoclean -y \
     && rm -rf /var/lib/apt/lists/*
 
+# EXIF
+RUN         apt-get update --fix-missing \
+    && apt-get install --no-install-recommends --fix-missing -fy \
+    libicu-dev \
+    && docker-php-ext-configure exif \
+    && docker-php-ext-install exif \
+    && apt-get autoremove -fy \
+    && apt-get clean \
+    && apt-get autoclean -y \
+    && rm -rf /var/lib/apt/lists/*
+
 # SSH
 RUN         apt-get update --fix-missing \
     && apt-get install --no-install-recommends --fix-missing -fy \

@@ -233,6 +233,17 @@ RUN         apt-get update --fix-missing \
     && apt-get autoclean -y \
     && rm -rf /var/lib/apt/lists/*
 
+# EXIF
+RUN         apt-get update --fix-missing \
+    && apt-get install --no-install-recommends --fix-missing -fy \
+    libicu-dev \
+    && docker-php-ext-configure exif \
+    && docker-php-ext-install exif \
+    && apt-get autoremove -fy \
+    && apt-get clean \
+    && apt-get autoclean -y \
+    && rm -rf /var/lib/apt/lists/*
+
 # SSH
 RUN         apt-get update \
     && apt-get install --no-install-recommends --fix-missing -fy \
@@ -246,6 +257,10 @@ RUN         apt-get update \
 RUN         wget https://getcomposer.org/installer -O - -q | php -- --no-ansi --install-dir=/usr/bin --filename=composer \
     && composer config --global repo.packagist composer https://packagist.org \
     && composer global require laravel/installer \
+    && composer global require phpunit/phpunit \
+    && composer global require squizlabs/php_codesniffer \
+    # && composer global require beyondcode/laravel-self-diagnosis \ [PHP 7.1++]
+    # && composer global require beyondcode/laravel-er-diagram-generator \ [PHP 7.1++]
     && export PATH="~/.composer/vendor/bin:$PATH" \
     && mkdir -p /root/.ssh \
     && echo "StrictHostKeyChecking no" > /root/.ssh/config

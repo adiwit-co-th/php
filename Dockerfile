@@ -227,14 +227,14 @@ RUN         apt-get update --fix-missing \
     && docker-php-source delete \
     && rm -rf /var/lib/apt/lists/*
 
-# XDEBUG
+# XDEBUG - DISABLED ON PRODUCTION
 # Xdebug can cause Composer to take minutes even when running a command as simple as composer --version
-RUN         pecl install xdebug \
-    && apt-get autoremove -fy \
-    && apt-get clean \
-    && apt-get autoclean -y \
-    && docker-php-source delete \
-    && rm -rf /var/lib/apt/lists/*
+# RUN         pecl install xdebug \
+#     && apt-get autoremove -fy \
+#     && apt-get clean \
+#     && apt-get autoclean -y \
+#     && docker-php-source delete \
+#     && rm -rf /var/lib/apt/lists/*
 
 # BCMATH
 RUN         docker-php-ext-configure bcmath \
@@ -281,6 +281,17 @@ RUN         apt-get update --fix-missing \
     libicu-dev \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
+    && apt-get autoremove -fy \
+    && apt-get clean \
+    && apt-get autoclean -y \
+    && rm -rf /var/lib/apt/lists/*
+
+# EXIF
+RUN         apt-get update --fix-missing \
+    && apt-get install --no-install-recommends --fix-missing -fy \
+    libicu-dev \
+    && docker-php-ext-configure exif \
+    && docker-php-ext-install exif \
     && apt-get autoremove -fy \
     && apt-get clean \
     && apt-get autoclean -y \

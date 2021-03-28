@@ -229,7 +229,7 @@ RUN         apt-get update --fix-missing \
 
 # XDEBUG
 # Xdebug can cause Composer to take minutes even when running a command as simple as composer --version
-RUN         pecl install xdebug \
+RUN         pecl install xdebug-2.9.8 \
     && apt-get autoremove -fy \
     && apt-get clean \
     && apt-get autoclean -y \
@@ -281,6 +281,17 @@ RUN         apt-get update --fix-missing \
     libicu-dev \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
+    && apt-get autoremove -fy \
+    && apt-get clean \
+    && apt-get autoclean -y \
+    && rm -rf /var/lib/apt/lists/*
+
+# EXIF
+RUN         apt-get update --fix-missing \
+    && apt-get install --no-install-recommends --fix-missing -fy \
+    libicu-dev \
+    && docker-php-ext-configure exif \
+    && docker-php-ext-install exif \
     && apt-get autoremove -fy \
     && apt-get clean \
     && apt-get autoclean -y \

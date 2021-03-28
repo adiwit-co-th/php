@@ -153,35 +153,35 @@ RUN         apt-get update --fix-missing \
     && docker-php-source delete \
     && rm -rf /var/lib/apt/lists/*
 
-# SQL Server
-ENV         ACCEPT_EULA=Y
-RUN         apt-get update --fix-missing \
-    && apt-get install --no-install-recommends --fix-missing -fy \
-    gnupg \
-    && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-    && curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql.list \
-    && apt-get update --fix-missing \
-    && apt-get install --no-install-recommends --fix-missing -fy \
-    unixodbc \
-    odbcinst1debian2 \
-    unixodbc-dev \
-    locales \
-    msodbcsql17 \
-    mssql-tools \
-    && printf "th_TH.UTF-8 UTF-8\nen_US UTF-8\nen_US.UTF-8 UTF-8\n" > /etc/locale.gen \
-    && locale-gen \
-    && pecl install sqlsrv \
-    && pecl install pdo_sqlsrv \
-    && docker-php-ext-enable \
-    sqlsrv.so \
-    pdo_sqlsrv.so \
-    && echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile \
-    && echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc \
-    && apt-get autoremove -fy \
-    && apt-get clean \
-    && apt-get autoclean -y \
-    && docker-php-source delete \
-    && rm -rf /var/lib/apt/lists/*
+# SQL Server (PHP 7.3++)
+# ENV         ACCEPT_EULA=Y
+# RUN         apt-get update --fix-missing \
+#     && apt-get install --no-install-recommends --fix-missing -fy \
+#     gnupg \
+#     && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+#     && curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql.list \
+#     && apt-get update --fix-missing \
+#     && apt-get install --no-install-recommends --fix-missing -fy \
+#     unixodbc \
+#     odbcinst1debian2 \
+#     unixodbc-dev \
+#     locales \
+#     msodbcsql17 \
+#     mssql-tools \
+#     && printf "th_TH.UTF-8 UTF-8\nen_US UTF-8\nen_US.UTF-8 UTF-8\n" > /etc/locale.gen \
+#     && locale-gen \
+#     && pecl install sqlsrv \
+#     && pecl install pdo_sqlsrv \
+#     && docker-php-ext-enable \
+#     sqlsrv.so \
+#     pdo_sqlsrv.so \
+#     && echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile \
+#     && echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc \
+#     && apt-get autoremove -fy \
+#     && apt-get clean \
+#     && apt-get autoclean -y \
+#     && docker-php-source delete \
+#     && rm -rf /var/lib/apt/lists/*
 
 # Zip
 RUN         apt-get update --fix-missing \
@@ -281,6 +281,17 @@ RUN         apt-get update --fix-missing \
     libicu-dev \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
+    && apt-get autoremove -fy \
+    && apt-get clean \
+    && apt-get autoclean -y \
+    && rm -rf /var/lib/apt/lists/*
+
+# EXIF
+RUN         apt-get update --fix-missing \
+    && apt-get install --no-install-recommends --fix-missing -fy \
+    libicu-dev \
+    && docker-php-ext-configure exif \
+    && docker-php-ext-install exif \
     && apt-get autoremove -fy \
     && apt-get clean \
     && apt-get autoclean -y \
