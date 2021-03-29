@@ -227,7 +227,7 @@ RUN         apt-get update --fix-missing \
     && docker-php-source delete \
     && rm -rf /var/lib/apt/lists/*
 
-# XDEBUG - DISABLED ON PRODUCTION
+# XDEBUG - Disabled in Production Environment
 # Xdebug can cause Composer to take minutes even when running a command as simple as composer --version
 # RUN         pecl install xdebug \
 #     && apt-get autoremove -fy \
@@ -306,14 +306,14 @@ RUN         apt-get update --fix-missing \
     && apt-get autoclean -y \
     && rm -rf /var/lib/apt/lists/*
 
-# Composer
+# Composer - Disabled in Production Environment
 RUN         wget https://getcomposer.org/installer -O - -q | php -- --no-ansi --install-dir=/usr/bin --filename=composer \
     && composer config --global repo.packagist composer https://packagist.org \
-    && composer global require laravel/installer \
-    && composer global require phpunit/phpunit \
-    && composer global require squizlabs/php_codesniffer \
+    # && composer global require laravel/installer \
+    # && composer global require phpunit/phpunit \
+    # && composer global require squizlabs/php_codesniffer \
     && composer global require beyondcode/laravel-self-diagnosis \
-    && composer global require beyondcode/laravel-er-diagram-generator \
+    # && composer global require beyondcode/laravel-er-diagram-generator \
     && export PATH="~/.composer/vendor/bin:$PATH" \
     && mkdir -p /root/.ssh \
     && echo "StrictHostKeyChecking no" > /root/.ssh/config
