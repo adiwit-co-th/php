@@ -306,3 +306,4 @@ RUN         wget https://getcomposer.org/installer -O - -q | php -- --no-ansi --
 
 # Configurations
 COPY        php.ini /usr/local/etc/php/php.ini
+COPY        zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
