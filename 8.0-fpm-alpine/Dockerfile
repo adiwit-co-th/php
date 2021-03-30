@@ -102,6 +102,12 @@ RUN         docker-php-ext-install intl
 # EXIF
 RUN         docker-php-ext-install exif
 
+# IGBINARY
+RUN         apk add --no-cache ${PHPIZE_DEPS} \
+    && pecl install --onlyreqdeps --force igbinary \
+    && docker-php-ext-enable igbinary \
+    && apk del ${PHPIZE_DEPS}
+
 # XDEBUG - can cause Composer to take minutes even when running a command as simple as composer --version
 RUN         apk add --no-cache ${PHPIZE_DEPS} \
     && pecl install xdebug \
