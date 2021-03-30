@@ -10,17 +10,17 @@ FROM        php:8.0-fpm-alpine
 LABEL       maintainer=info@adiwit.co.th
 
 # Change System TimeZone to Asia/Bangkok
-RUN         apk add --update tzdata \
+RUN         apk add --no-cache tzdata \
     && cp /usr/share/zoneinfo/Asia/Bangkok /etc/localtime \
     && echo "Asia/Bangkok" > /etc/timezone \
     && apk del tzdata
 
 # BZ2
-RUN         apk add --update bzip2-dev \
+RUN         apk add --no-cache bzip2-dev \
     && docker-php-ext-install bz2
 
 # GD
-RUN         apk add --update \
+RUN         apk add --no-cache \
         freetype-dev \
         libjpeg-turbo-dev \
         libpng-dev \
@@ -29,20 +29,20 @@ RUN         apk add --update \
     && docker-php-ext-install gd
 
 # GetText
-RUN         apk add --update \
+RUN         apk add --no-cache \
         icu-dev \
         gettext \
         gettext-dev \
     && docker-php-ext-install gettext
 
 # MCrypt
-RUN         apk add --update libmcrypt-dev ${PHPIZE_DEPS} \
+RUN         apk add --no-cache libmcrypt-dev ${PHPIZE_DEPS} \
     && pecl install mcrypt \
     && docker-php-ext-enable mcrypt \
     && apk del ${PHPIZE_DEPS}
 
 # Memcached
-# RUN         apk add --update libmemcached-dev ${PHPIZE_DEPS} \
+# RUN         apk add --no-cache libmemcached-dev ${PHPIZE_DEPS} \
 #     && pecl install memcached \
 #     && docker-php-ext-enable memcached \
 #     && apk del ${PHPIZE_DEPS}
@@ -51,17 +51,17 @@ RUN         apk add --update libmcrypt-dev ${PHPIZE_DEPS} \
 RUN         docker-php-ext-install mysqli pdo pdo_mysql
 
 # PostgreSQL
-RUN         apk add --update postgresql-dev \
+RUN         apk add --no-cache postgresql-dev \
     && docker-php-ext-install pdo pdo_pgsql pgsql
 
 # Redis
-RUN         apk add --update ${PHPIZE_DEPS} \
+RUN         apk add --no-cache ${PHPIZE_DEPS} \
     && pecl install redis \
     && docker-php-ext-enable redis \
     && apk del ${PHPIZE_DEPS}
 
 # SQL Server
-# RUN         apk add --update unixodbc-dev ${PHPIZE_DEPS} \
+# RUN         apk add --no-cache unixodbc-dev ${PHPIZE_DEPS} \
 #     && pecl install sqlsrv pdo_sqlsrv \
 #     && docker-php-ext-enable sqlsrv pdo_sqlsrv \
 #     && apk del ${PHPIZE_DEPS}
@@ -70,34 +70,28 @@ RUN         apk add --update ${PHPIZE_DEPS} \
 RUN         docker-php-ext-install zip
 
 # PDF
-RUN         apk add --update libx11-dev \
-    && wget https://github.com/h4cc/wkhtmltopdf-amd64/blob/master/bin/wkhtmltopdf-amd64?raw=true --no-verbose -O /usr/local/bin/wkhtmltopdf \
-    && chmod +x /usr/local/bin/wkhtmltopdf
+# RUN         apk add --no-cache libx11-dev \
+#     && wget https://github.com/h4cc/wkhtmltopdf-amd64/blob/master/bin/wkhtmltopdf-amd64?raw=true --no-verbose -O /usr/local/bin/wkhtmltopdf \
+#     && chmod +x /usr/local/bin/wkhtmltopdf
 
 # IMAP
-RUN         apk add --update imap-dev ${PHPIZE_DEPS} \
+RUN         apk add --no-cache imap-dev ${PHPIZE_DEPS} \
         # krb5 krb5-libs \
     && docker-php-ext-configure imap --with-imap-ssl \
 #     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-install imap \
-    && apk del imap-dev krb5 krb5-libs ${PHPIZE_DEPS}
-
-# XDEBUG - can cause Composer to take minutes even when running a command as simple as composer --version
-RUN         apk add --update ${PHPIZE_DEPS} \
-    && pecl install xdebug \
-    && docker-php-ext-enable xdebug \
     && apk del ${PHPIZE_DEPS}
 
 # BCMATH
 RUN         docker-php-ext-install bcmath
 
 # ActiveDirectory / LDAP
-# RUN         apk add --update ldb-dev libldap openldap-dev \
+# RUN         apk add --no-cache ldb-dev libldap openldap-dev \
 #     && docker-php-ext-install ldap
 #     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
 
 # Graphviz
-RUN         apk add graphviz
+RUN         apk add --no-cache graphviz
 
 # Calendar
 RUN         docker-php-ext-install calendar
@@ -108,17 +102,24 @@ RUN         docker-php-ext-install intl
 # EXIF
 RUN         docker-php-ext-install exif
 
+# XDEBUG - can cause Composer to take minutes even when running a command as simple as composer --version
+RUN         apk add --no-cache ${PHPIZE_DEPS} \
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug \
+    && apk del ${PHPIZE_DEPS}
+
 # SSH
-RUN         apk add --update openssh-client
+RUN         apk add --no-cache openssh-client
 
 # Composer
-RUN         wget https://getcomposer.org/installer -O - -q | php -- --no-ansi --install-dir=/usr/bin --filename=composer \
+RUN         apk add --no-cache git \
+    && wget https://getcomposer.org/installer -O - -q | php -- --no-ansi --install-dir=/usr/bin --filename=composer \
     && composer config --global repo.packagist composer https://packagist.org \
-    && composer global require laravel/installer \
-    && composer global require phpunit/phpunit \
-    && composer global require squizlabs/php_codesniffer \
-    && composer global require beyondcode/laravel-self-diagnosis dev-master \
-    && composer global require beyondcode/laravel-er-diagram-generator dev-master --ignore-platform-reqs \
+    # && composer global require laravel/installer \
+    # && composer global require phpunit/phpunit \
+    # && composer global require squizlabs/php_codesniffer \
+    # && composer global require beyondcode/laravel-self-diagnosis dev-master \
+    # && composer global require beyondcode/laravel-er-diagram-generator dev-master --ignore-platform-reqs \
     && export PATH="~/.composer/vendor/bin:$PATH" \
     && mkdir -p /root/.ssh \
     && echo "StrictHostKeyChecking no" > /root/.ssh/config
