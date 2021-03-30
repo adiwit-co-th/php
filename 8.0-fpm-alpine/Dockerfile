@@ -132,3 +132,4 @@ RUN         apk add --no-cache git \
 
 # Configurations
 COPY        php.ini /usr/local/etc/php/php.ini
+COPY        zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
