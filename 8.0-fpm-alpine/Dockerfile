@@ -109,10 +109,10 @@ RUN         apk add --no-cache ${PHPIZE_DEPS} \
     && apk del ${PHPIZE_DEPS}
 
 # XDEBUG - can cause Composer to take minutes even when running a command as simple as composer --version
-RUN         apk add --no-cache ${PHPIZE_DEPS} \
-    && pecl install xdebug \
-    && docker-php-ext-enable xdebug \
-    && apk del ${PHPIZE_DEPS}
+# RUN         apk add --no-cache ${PHPIZE_DEPS} \
+#     && pecl install xdebug \
+#     && docker-php-ext-enable xdebug \
+#     && apk del ${PHPIZE_DEPS}
 
 # SSH
 RUN         apk add --no-cache openssh-client

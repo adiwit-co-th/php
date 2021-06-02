@@ -276,12 +276,12 @@ RUN         pecl install --onlyreqdeps --force igbinary \
 
 # XDEBUG
 # Xdebug can cause Composer to take minutes even when running a command as simple as composer --version
-RUN         pecl install --onlyreqdeps --force xdebug \
-    && apt-get autoremove -fy \
-    && apt-get clean \
-    && apt-get autoclean -y \
-    && docker-php-source delete \
-    && rm -rf /var/lib/apt/lists/*
+# RUN         pecl install --onlyreqdeps --force xdebug \
+#     && apt-get autoremove -fy \
+#     && apt-get clean \
+#     && apt-get autoclean -y \
+#     && docker-php-source delete \
+#     && rm -rf /var/lib/apt/lists/*
 
 # SSH
 RUN         apt-get update --fix-missing \
